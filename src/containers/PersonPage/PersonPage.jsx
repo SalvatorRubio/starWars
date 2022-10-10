@@ -14,6 +14,7 @@ import PersonInfo from "@components/PersonPage/PersonInfo/PersonInfo";
 import UiLoading from "@UI/UiLoading/UiLoading";
 
 import styles from "./PersonPage.module.css";
+import { useSelector } from "react-redux";
 
 const PersonFilms = React.lazy(() =>
   import("@components/PersonPage/PersonFilms/PersonFilms")
@@ -23,7 +24,10 @@ const PersonPage = ({ setErrorApi }) => {
   const [personInfo, setPersonInfo] = useState(null);
   const [personName, setPersonName] = useState(null);
   const [personPhoto, setPersonPhoto] = useState(null);
+  const [personFavorite, setPersonFavorite] = useState(false);
   const [personFilms, setPersonFilms] = useState([]);
+
+  const store = useSelector((state) => state.personSlice.favoritePersons);
 
   const id = useParams().id;
 
@@ -61,6 +65,9 @@ const PersonPage = ({ setErrorApi }) => {
             data: res.gender,
           },
         ]);
+        if (store.find((person) => person.id === id)) {
+          setPersonFavorite(true);
+        }
         setPersonName(res.name);
         res.films && setPersonFilms(res.films);
         setPersonPhoto(getPeopleImage(id));
@@ -80,6 +87,8 @@ const PersonPage = ({ setErrorApi }) => {
         <div className={styles.container}>
           <PersonPhoto
             personPhoto={personPhoto}
+            personFavorite={personFavorite}
+            setPersonFavorite={setPersonFavorite}
             personId={id}
             personName={personName}
           />
