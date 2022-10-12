@@ -18,7 +18,6 @@ import styles from "./PeoplePage.module.css";
 
 const PeoplePage = ({ setErrorApi }) => {
   const [people, setPeople] = useState([]);
-
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
   const [counterPage, setCounterPage] = useState(1);
